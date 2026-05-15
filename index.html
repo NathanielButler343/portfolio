@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nathaniel Butler — Mechatronics Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c14;
+    --bg2: #0d1421;
+    --bg3: #111927;
+    --cyan: #00d4ff;
+    --cyan-dim: rgba(0,212,255,0.12);
+    --cyan-mid: rgba(0,212,255,0.35);
+    --amber: #f0a500;
+    --amber-dim: rgba(240,165,0,0.12);
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --border: rgba(0,212,255,0.15);
+    --border-bright: rgba(0,212,255,0.45);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Exo 2', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── Grid overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--text-muted); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--cyan); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    overflow: hidden;
+  }
+
+  .hero-corner {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    right: 6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 40s linear infinite;
+  }
+
+  .hero-corner::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    animation: spin 25s linear infinite reverse;
+  }
+
+  .hero-corner::after {
+    content: '';
+    position: absolute;
+    inset: 70px;
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 50%;
+  }
+
+  .hero-dot {
+    position: absolute;
+    right: calc(6rem + 260px - 6px);
+    top: 50%;
+    width: 12px; height: 12px;
+    background: var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+    transform-origin: calc(-(260px - 6px)) 0;
+    animation: orbit 8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .name-line {
+    display: block;
+    color: var(--text);
+  }
+
+  h1 .title-line {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,212,255,0.5);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background: var(--cyan);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #33dcff;
+    box-shadow: 0 0 30px rgba(0,212,255,0.4);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--border-bright);
+    color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--cyan-dim);
+    border-color: var(--cyan);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--cyan);
+    line-height: 1;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+
+  /* ── PROJECT CARDS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    position: relative;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 120px; height: 120px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transition: border-color 0.3s, transform 0.4s;
+  }
+
+  .project-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright), 0 0 60px rgba(0,212,255,0.06);
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card:hover::after {
+    border-color: rgba(0,212,255,0.2);
+    transform: scale(1.15);
+  }
+
+  /* corner bracket decoration */
+  .card-bracket {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 16px; height: 16px;
+    border-top: 1px solid var(--cyan-mid);
+    border-right: 1px solid var(--cyan-mid);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  .project-card:hover .card-bracket {
+    width: 24px; height: 24px;
+    border-color: var(--cyan);
+  }
+
+  .card-bracket-bl {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    width: 16px; height: 16px;
+    border-bottom: 1px solid var(--cyan-mid);
+    border-left: 1px solid var(--cyan-mid);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  .project-card:hover .card-bracket-bl {
+    width: 24px; height: 24px;
+    border-color: var(--cyan);
+  }
+
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-tag.amber {
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stack-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    border: 1px solid rgba(100,116,139,0.3);
+    padding: 0.2rem 0.55rem;
+    letter-spacing: 0.05em;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .project-card:hover .stack-pill {
+    color: var(--text-dim);
+    border-color: rgba(100,116,139,0.5);
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .card-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s;
+  }
+
+  .card-link:hover { color: var(--cyan); }
+
+  .card-link svg {
+    width: 12px; height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .card-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .status-dot.wip { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── SKILLS ── */
+  .skills-bg {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    transition: border-color 0.3s;
+  }
+
+  .skill-group:hover { border-color: var(--border-bright); }
+
+  .skill-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skill-list li {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 300;
+  }
+
+  .skill-list li::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    background: var(--cyan);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    font-weight: 300;
+  }
+
+  .about-text p { margin-bottom: 1.25rem; }
+
+  .about-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .specs-panel {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+
+  .specs-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,212,255,0.06);
+    font-size: 0.825rem;
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+
+  .spec-key {
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .spec-val {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .spec-val.highlight { color: var(--cyan); }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .contact-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .contact-headline {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--cyan); }
+
+  .contact-link svg {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 1.5rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { gap: 1.25rem; }
+    .hero { padding: 6rem 1.5rem 3rem; min-height: auto; padding-top: 7rem; }
+    .hero-corner { display: none; }
+    .hero-dot { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>~/</span>nathaniel.butler</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-corner"></div>
+  <div class="hero-dot"></div>
+
+  <div class="hero-content">
+    <div class="hero-label">Mechatronics Engineer &amp; Physicist</div>
+    <h1>
+      <span class="name-line">Nathaniel</span>
+      <span class="name-line">Butler.</span>
+      <span class="title-line">Engineer.</span>
+    </h1>
+    <p class="hero-desc">
+      I build systems where mechanics, electronics, and software converge —
+      from autonomous robotics to physical simulation. I care about precision,
+      elegance, and making things that actually work in the real world.
+    </p>
+    <div class="hero-buttons">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Projects Built</div>
+      </div>
+      <div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Published Papers</div>
+      </div>
+      <div>
+        <div class="stat-number">4yr</div>
+        <div class="stat-label">Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01.</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>
+        I'm a <strong>mechatronics engineer</strong> with a background in applied physics,
+        focused on designing intelligent systems that bridge computation and the physical world.
+        My work spans embedded firmware, control theory, mechanical simulation, and signal processing.
+      </p>
+      <p>
+        I'm most at home when a problem requires thinking across domains — whether that's
+        modelling rigid body dynamics, implementing a PID controller in C, or running
+        FEM analysis on a custom actuator.
+      </p>
+      <p>
+        Currently open to <strong>robotics, hardware, and research roles</strong> where
+        deep technical work is the job, not the exception.
+      </p>
+    </div>
+
+    <div class="specs-panel">
+      <div class="specs-title">// sys.info</div>
+      <div class="spec-row">
+        <span class="spec-key">Degree</span>
+        <span class="spec-val highlight">BEng Mechatronics</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Minor</span>
+        <span class="spec-val">Applied Physics</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Location</span>
+        <span class="spec-val">Vancouver, BC</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Languages</span>
+        <span class="spec-val">C / C++ / Python / MATLAB</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">CAD / Sim</span>
+        <span class="spec-val">SolidWorks · ANSYS · Gazebo</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Availability</span>
+        <span class="spec-val highlight">Open to opportunities</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--bg);">
+  <div class="section-header reveal">
+    <span class="section-num">02.</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag">Robotics / Controls</div>
+      <div class="card-title">Autonomous Ground Vehicle Navigation</div>
+      <div class="card-desc">
+        Designed and implemented a full navigation stack for a differential-drive robot using ROS2.
+        Fused LiDAR and IMU data via an Extended Kalman Filter for real-time pose estimation,
+        achieving sub-5cm positional accuracy in indoor SLAM trials.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">C++</span>
+        <span class="stack-pill">ROS2</span>
+        <span class="stack-pill">EKF/SLAM</span>
+        <span class="stack-pill">LiDAR</span>
+        <span class="stack-pill">Python</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Demo
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot"></div>
+          Complete
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag amber">Physics / Simulation</div>
+      <div class="card-title">6-DOF Rigid Body Physics Engine</div>
+      <div class="card-desc">
+        Built a custom physics simulation engine from scratch in C++ implementing
+        impulse-based collision resolution, quaternion rotation, and constraint solvers.
+        Benchmarked against Bullet Physics; achieved within 3% numerical accuracy at 10× lighter weight.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">C++</span>
+        <span class="stack-pill">Linear Algebra</span>
+        <span class="stack-pill">Quaternions</span>
+        <span class="stack-pill">Eigen</span>
+        <span class="stack-pill">OpenGL</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Paper
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot"></div>
+          Complete
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag">Embedded / Hardware</div>
+      <div class="card-title">CubeSat ADCS Firmware</div>
+      <div class="card-desc">
+        Developed attitude determination and control firmware for a 1U CubeSat on STM32H7.
+        Implemented a MEKF for sensor fusion (magnetometer + gyro + sun sensor),
+        with magnetic torquer actuation achieving 2° pointing accuracy.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">C (bare-metal)</span>
+        <span class="stack-pill">STM32</span>
+        <span class="stack-pill">MEKF</span>
+        <span class="stack-pill">FreeRTOS</span>
+        <span class="stack-pill">CAN bus</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Demo
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot wip"></div>
+          In Progress
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag">Control Theory</div>
+      <div class="card-title">Inverted Pendulum LQR Controller</div>
+      <div class="card-desc">
+        Designed and physically constructed a double-inverted pendulum with full-state
+        LQR stabilisation. Derived system dynamics analytically, linearised about the
+        upright equilibrium, and tuned Q/R matrices using MATLAB. Maintained balance
+        with ±0.8° deviation under external impulse.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">MATLAB</span>
+        <span class="stack-pill">LQR</span>
+        <span class="stack-pill">State-space</span>
+        <span class="stack-pill">Arduino</span>
+        <span class="stack-pill">SolidWorks</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Report
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot"></div>
+          Complete
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag amber">ML / Signal Processing</div>
+      <div class="card-title">EMG-Based Prosthetic Hand Classifier</div>
+      <div class="card-desc">
+        Captured 8-channel surface EMG from forearm muscles and trained an SVM and LSTM
+        classifier to recognise 6 hand gestures with 94.2% accuracy. Deployed real-time
+        inference on a Raspberry Pi 4 driving servo-actuated fingers.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">scikit-learn</span>
+        <span class="stack-pill">PyTorch</span>
+        <span class="stack-pill">Signal DSP</span>
+        <span class="stack-pill">Raspberry Pi</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            Code
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Paper
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot"></div>
+          Complete
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-bracket"></div>
+      <div class="card-bracket-bl"></div>
+      <div class="card-tag">FEM / Structural</div>
+      <div class="card-title">Topology-Optimised Drone Frame</div>
+      <div class="card-desc">
+        Applied SIMP-based topology optimisation in ANSYS to redesign a quadrotor
+        arm structure. Achieved 31% mass reduction while maintaining structural
+        safety factor ≥2.5 under maximum motor thrust loading. Validated with
+        physical load testing post-fabrication.
+      </div>
+      <div class="card-stack">
+        <span class="stack-pill">ANSYS</span>
+        <span class="stack-pill">SolidWorks</span>
+        <span class="stack-pill">FEM</span>
+        <span class="stack-pill">SIMP Optimisation</span>
+        <span class="stack-pill">CF/PETG Print</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-links">
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Report
+          </a>
+          <a href="#" class="card-link">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Gallery
+          </a>
+        </div>
+        <div class="card-status">
+          <div class="status-dot"></div>
+          Complete
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-bg">
+  <div class="section-header reveal">
+    <span class="section-num">03.</span>
+    <h2 class="section-title">Skills & Tools</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Languages</div>
+      <ul class="skill-list">
+        <li>C / C++ (embedded & systems)</li>
+        <li>Python (automation, ML)</li>
+        <li>MATLAB / Simulink</li>
+        <li>Rust (learning)</li>
+        <li>Bash / Linux</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Hardware & Embedded</div>
+      <ul class="skill-list">
+        <li>STM32 / ESP32 / AVR</li>
+        <li>FreeRTOS / bare-metal</li>
+        <li>I2C, SPI, UART, CAN</li>
+        <li>PCB design (KiCad)</li>
+        <li>FPGA basics (VHDL)</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Mechanics & Sim</div>
+      <ul class="skill-list">
+        <li>SolidWorks / Fusion 360</li>
+        <li>ANSYS (FEM / CFD)</li>
+        <li>Gazebo / ROS2</li>
+        <li>Multibody dynamics</li>
+        <li>GD&T / manufacturing</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Controls & Math</div>
+      <ul class="skill-list">
+        <li>PID / LQR / MPC</li>
+        <li>State-space modelling</li>
+        <li>Kalman filtering</li>
+        <li>Nonlinear dynamics</li>
+        <li>Numerical methods</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">ML / Data</div>
+      <ul class="skill-list">
+        <li>PyTorch / scikit-learn</li>
+        <li>Signal processing / DSP</li>
+        <li>Computer vision (OpenCV)</li>
+        <li>Data pipeline (pandas)</li>
+        <li>Sensor fusion</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Physics</div>
+      <ul class="skill-list">
+        <li>Classical mechanics</li>
+        <li>Electromagnetism</li>
+        <li>Thermodynamics</li>
+        <li>Quantum fundamentals</li>
+        <li>Experimental methods</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-eyebrow reveal">// Ready to collaborate</div>
+  <div class="contact-headline reveal">Let's Build Something.</div>
+  <p class="contact-sub reveal">Open to full-time roles, research positions, and interesting side projects.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:alex.chen@example.com" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      nathaniel.butler@example.com
+    </a>
+    <a href="#" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      github.com/nathanielbutler
+    </a>
+    <a href="#" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      linkedin.com/in/nathanielbutler
+    </a>
+    <a href="#" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Download CV
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Nathaniel Butler — Mechatronics Engineer</p>
+  <p>Built with precision. No templates harmed.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger project cards
+  document.querySelectorAll('.project-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 80}ms`;
+  });
+</script>
+</body>
+</html>
