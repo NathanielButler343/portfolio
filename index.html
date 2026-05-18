@@ -9,1184 +9,928 @@
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #080c14;
-    --bg2: #0d1421;
-    --bg3: #111927;
-    --cyan: #00d4ff;
-    --cyan-dim: rgba(0,212,255,0.12);
-    --cyan-mid: rgba(0,212,255,0.35);
-    --amber: #f0a500;
-    --amber-dim: rgba(240,165,0,0.12);
-    --text: #e2e8f0;
-    --text-muted: #64748b;
-    --text-dim: #94a3b8;
-    --border: rgba(0,212,255,0.15);
-    --border-bright: rgba(0,212,255,0.45);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Exo 2', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-
-  /* ── Grid overlay ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 4rem;
-    background: rgba(8,12,20,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--cyan);
-    letter-spacing: 0.05em;
-  }
-
-  .nav-logo span { color: var(--text-muted); }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2.5rem;
-  }
-
-  nav a {
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 400;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  nav a:hover { color: var(--cyan); }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 0 4rem;
-    overflow: hidden;
-  }
-
-  .hero-corner {
-    position: absolute;
-    width: 520px;
-    height: 520px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    right: 6rem;
-    top: 50%;
-    transform: translateY(-50%);
-    animation: spin 40s linear infinite;
-  }
-
-  .hero-corner::before {
-    content: '';
-    position: absolute;
-    inset: 30px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    animation: spin 25s linear infinite reverse;
-  }
-
-  .hero-corner::after {
-    content: '';
-    position: absolute;
-    inset: 70px;
-    border: 1px solid rgba(0,212,255,0.25);
-    border-radius: 50%;
-  }
-
-  .hero-dot {
-    position: absolute;
-    right: calc(6rem + 260px - 6px);
-    top: 50%;
-    width: 12px; height: 12px;
-    background: var(--cyan);
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
-    transform-origin: calc(-(260px - 6px)) 0;
-    animation: orbit 8s linear infinite;
-  }
-
-  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
-  @keyframes orbit { to { transform: rotate(360deg); } }
-
-  .hero-content { position: relative; z-index: 1; max-width: 700px; }
-
-  .hero-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--cyan);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .hero-label::before {
-    content: '';
-    display: inline-block;
-    width: 40px; height: 1px;
-    background: var(--cyan);
-  }
-
-  h1 {
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
-  h1 .name-line {
-    display: block;
-    color: var(--text);
-  }
-
-  h1 .title-line {
-    display: block;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(0,212,255,0.5);
-  }
-
-  .hero-desc {
-    font-size: 1rem;
-    color: var(--text-dim);
-    max-width: 480px;
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
-    font-weight: 300;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    background: var(--cyan);
-    color: var(--bg);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    transition: background 0.2s, box-shadow 0.2s;
-  }
-
-  .btn-primary:hover {
-    background: #33dcff;
-    box-shadow: 0 0 30px rgba(0,212,255,0.4);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    border: 1px solid var(--border-bright);
-    color: var(--cyan);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  .btn-secondary:hover {
-    background: var(--cyan-dim);
-    border-color: var(--cyan);
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .stat-number {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--cyan);
-    line-height: 1;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 0.25rem;
-  }
-
-  /* ── SECTIONS ── */
-  section {
-    position: relative;
-    z-index: 1;
-    padding: 6rem 4rem;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .section-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 0.2em;
-  }
-
-  .section-title {
-    font-size: 2.25rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-    color: var(--text);
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border-bright), transparent);
-  }
-
-  /* ── PROJECT CARDS ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    position: relative;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 1.75rem;
-    cursor: pointer;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .project-card::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; right: -60px;
-    width: 120px; height: 120px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    transition: border-color 0.3s, transform 0.4s;
-  }
-
-  .project-card:hover {
-    border-color: var(--border-bright);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright), 0 0 60px rgba(0,212,255,0.06);
-  }
-
-  .project-card:hover::before { opacity: 1; }
-
-  .project-card:hover::after {
-    border-color: rgba(0,212,255,0.2);
-    transform: scale(1.15);
-  }
-
-  /* corner bracket decoration */
-  .card-bracket {
-    position: absolute;
-    top: 10px; right: 10px;
-    width: 16px; height: 16px;
-    border-top: 1px solid var(--cyan-mid);
-    border-right: 1px solid var(--cyan-mid);
-    transition: width 0.3s, height 0.3s, border-color 0.3s;
-  }
-
-  .project-card:hover .card-bracket {
-    width: 24px; height: 24px;
-    border-color: var(--cyan);
-  }
-
-  .card-bracket-bl {
-    position: absolute;
-    bottom: 10px; left: 10px;
-    width: 16px; height: 16px;
-    border-bottom: 1px solid var(--cyan-mid);
-    border-left: 1px solid var(--cyan-mid);
-    transition: width 0.3s, height 0.3s, border-color 0.3s;
-  }
-
-  .project-card:hover .card-bracket-bl {
-    width: 24px; height: 24px;
-    border-color: var(--cyan);
-  }
-
-  .card-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    background: var(--cyan-dim);
-    padding: 0.25rem 0.6rem;
-    margin-bottom: 1rem;
-  }
-
-  .card-tag.amber {
-    color: var(--amber);
-    background: var(--amber-dim);
-  }
-
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-
-  .card-desc {
-    font-size: 0.875rem;
-    color: var(--text-dim);
-    line-height: 1.7;
-    font-weight: 300;
-    margin-bottom: 1.5rem;
-  }
-
-  .card-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .stack-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    border: 1px solid rgba(100,116,139,0.3);
-    padding: 0.2rem 0.55rem;
-    letter-spacing: 0.05em;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .project-card:hover .stack-pill {
-    color: var(--text-dim);
-    border-color: rgba(100,116,139,0.5);
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .card-links {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .card-link {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: color 0.2s;
-  }
-
-  .card-link:hover { color: var(--cyan); }
-
-  .card-link svg {
-    width: 12px; height: 12px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .card-status {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 6px #22c55e;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  .status-dot.wip { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── SKILLS ── */
-  .skills-bg {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .skill-group {
-    padding: 1.25rem;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    position: relative;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-    transition: border-color 0.3s;
-  }
-
-  .skill-group:hover { border-color: var(--border-bright); }
-
-  .skill-group-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--cyan);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .skill-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .skill-list li {
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-weight: 300;
-  }
-
-  .skill-list li::before {
-    content: '';
-    display: inline-block;
-    width: 4px; height: 4px;
-    background: var(--cyan);
-    flex-shrink: 0;
-    opacity: 0.5;
-  }
-
-  /* ── ABOUT ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .about-text {
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    line-height: 1.9;
-    font-weight: 300;
-  }
-
-  .about-text p { margin-bottom: 1.25rem; }
-
-  .about-text strong {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  .specs-panel {
-    border: 1px solid var(--border);
-    background: var(--bg2);
-    padding: 1.5rem;
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-  }
-
-  .specs-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .spec-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0,212,255,0.06);
-    font-size: 0.825rem;
-  }
-
-  .spec-row:last-child { border-bottom: none; }
-
-  .spec-key {
-    color: var(--text-muted);
-    font-weight: 300;
-  }
-
-  .spec-val {
-    color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-  }
-
-  .spec-val.highlight { color: var(--cyan); }
-
-  /* ── CONTACT ── */
-  .contact-section {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    text-align: center;
-  }
-
-  .contact-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .contact-headline {
-    font-size: clamp(2rem, 4vw, 3.25rem);
-    font-weight: 900;
-    color: var(--text);
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
-  .contact-sub {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-weight: 300;
-    margin-bottom: 2.5rem;
-  }
-
-  .contact-links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    transition: color 0.2s;
-  }
-
-  .contact-link:hover { color: var(--cyan); }
-
-  .contact-link svg {
-    width: 16px; height: 16px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 1.5rem 4rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  footer p {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── SCROLL ANIMATION ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border-bright); }
-
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    nav ul { gap: 1.25rem; }
-    .hero { padding: 6rem 1.5rem 3rem; min-height: auto; padding-top: 7rem; }
-    .hero-corner { display: none; }
-    .hero-dot { display: none; }
-    section { padding: 4rem 1.5rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-stats { gap: 1.5rem; }
-    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    --bg:#080c14; --bg2:#0d1421; --bg3:#111927;
+    --cyan:#00d4ff; --cyan-dim:rgba(0,212,255,0.10); --cyan-mid:rgba(0,212,255,0.35);
+    --amber:#f0a500; --amber-dim:rgba(240,165,0,0.12);
+    --green:#22c55e; --text:#e2e8f0; --text-muted:#64748b; --text-dim:#94a3b8;
+    --border:rgba(0,212,255,0.14); --border-bright:rgba(0,212,255,0.45);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Exo 2',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;}
+  body::before{content:'';position:fixed;inset:0;
+    background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);
+    background-size:48px 48px;pointer-events:none;z-index:0;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;
+    padding:1.25rem 4rem;background:rgba(8,12,20,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:600;color:var(--cyan);letter-spacing:0.05em;cursor:pointer;}
+  .nav-logo span{color:var(--text-muted);}
+  nav ul{list-style:none;display:flex;gap:2.5rem;}
+  nav a{text-decoration:none;font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+  nav a:hover{color:var(--cyan);}
+
+  #main-view{display:block;} #detail-view{display:none;}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 4rem;overflow:hidden;}
+  .hero-ring{position:absolute;width:500px;height:500px;border:1px solid var(--border);border-radius:50%;right:6rem;top:50%;transform:translateY(-50%);animation:spin 45s linear infinite;}
+  .hero-ring::before{content:'';position:absolute;inset:32px;border:1px solid var(--border);border-radius:50%;animation:spin 28s linear infinite reverse;}
+  .hero-ring::after{content:'';position:absolute;inset:75px;border:1px solid rgba(0,212,255,0.22);border-radius:50%;}
+  .hero-dot{position:absolute;right:calc(6rem + 250px - 6px);top:50%;width:11px;height:11px;background:var(--cyan);border-radius:50%;
+    box-shadow:0 0 16px var(--cyan),0 0 32px var(--cyan);transform-origin:calc(-(250px - 6px)) 0;animation:orbit 8s linear infinite;}
+  @keyframes spin{to{transform:translateY(-50%) rotate(360deg);}}
+  @keyframes orbit{to{transform:rotate(360deg);}}
+  .hero-content{position:relative;z-index:1;max-width:680px;}
+  .hero-label{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+  .hero-label::before{content:'';display:inline-block;width:36px;height:1px;background:var(--cyan);}
+  h1{font-size:clamp(3.5rem,7vw,5.5rem);font-weight:900;line-height:0.95;letter-spacing:-0.02em;margin-bottom:1.5rem;}
+  h1 .name-line{display:block;color:var(--text);}
+  h1 .title-line{display:block;color:transparent;-webkit-text-stroke:1px rgba(0,212,255,0.45);}
+  .hero-desc{font-size:0.95rem;color:var(--text-dim);max-width:460px;margin-bottom:2.5rem;line-height:1.85;font-weight:300;}
+  .hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;}
+  .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;background:var(--cyan);color:var(--bg);
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:box-shadow 0.2s;border:none;cursor:pointer;}
+  .btn-primary:hover{box-shadow:0 0 28px rgba(0,212,255,0.4);}
+  .btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border:1px solid var(--border-bright);color:var(--cyan);
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background 0.2s;background:none;cursor:pointer;text-decoration:none;}
+  .btn-secondary:hover{background:var(--cyan-dim);}
+  .hero-stats{display:flex;gap:3rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border);}
+  .stat-number{font-size:1.9rem;font-weight:900;color:var(--cyan);line-height:1;font-family:'JetBrains Mono',monospace;}
+  .stat-label{font-size:0.66rem;color:var(--text-muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:0.3rem;}
+
+  /* SECTIONS */
+  section{position:relative;z-index:1;padding:6rem 4rem;}
+  .section-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:3.5rem;}
+  .section-num{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:0.18em;}
+  .section-title{font-size:2.1rem;font-weight:900;letter-spacing:-0.01em;color:var(--text);}
+  .section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border-bright),transparent);}
+
+  /* PROJECT CARDS */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;}
+  .project-card{position:relative;background:var(--bg2);border:1px solid var(--border);padding:1.75rem;cursor:pointer;
+    transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;overflow:hidden;
+    clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));}
+  .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--cyan),transparent);opacity:0;transition:opacity 0.3s;}
+  .project-card::after{content:'';position:absolute;bottom:-60px;right:-60px;width:120px;height:120px;
+    border:1px solid var(--border);border-radius:50%;transition:border-color 0.3s,transform 0.4s;}
+  .project-card:hover{border-color:var(--border-bright);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 60px rgba(0,212,255,0.05);}
+  .project-card:hover::before{opacity:1;}
+  .project-card:hover::after{border-color:rgba(0,212,255,0.2);transform:scale(1.15);}
+  .card-bracket{position:absolute;top:10px;right:10px;width:16px;height:16px;border-top:1px solid var(--cyan-mid);border-right:1px solid var(--cyan-mid);transition:width 0.3s,height 0.3s,border-color 0.3s;}
+  .card-bracket-bl{position:absolute;bottom:10px;left:10px;width:16px;height:16px;border-bottom:1px solid var(--cyan-mid);border-left:1px solid var(--cyan-mid);transition:width 0.3s,height 0.3s,border-color 0.3s;}
+  .project-card:hover .card-bracket,.project-card:hover .card-bracket-bl{width:24px;height:24px;border-color:var(--cyan);}
+  .card-preview{width:100%;height:160px;object-fit:cover;margin-bottom:1rem;border:1px solid var(--border);display:block;}
+  .card-preview-video{width:100%;height:160px;object-fit:cover;margin-bottom:1rem;border:1px solid var(--border);display:block;pointer-events:none;}
+  .card-no-preview{width:100%;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;border:1px dashed rgba(0,212,255,0.15);}
+  .card-no-preview span{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);letter-spacing:0.15em;text-transform:uppercase;}
+  .card-tag{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);background:var(--cyan-dim);padding:0.22rem 0.6rem;margin-bottom:0.75rem;}
+  .card-tag.amber{color:var(--amber);background:var(--amber-dim);}
+  .card-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;line-height:1.3;letter-spacing:-0.01em;}
+  .card-desc{font-size:0.84rem;color:var(--text-dim);line-height:1.72;font-weight:300;margin-bottom:1.2rem;}
+  .card-stack{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1.2rem;}
+  .stack-pill{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);border:1px solid rgba(100,116,139,0.28);padding:0.16rem 0.48rem;letter-spacing:0.04em;transition:color 0.2s,border-color 0.2s;}
+  .project-card:hover .stack-pill{color:var(--text-dim);border-color:rgba(100,116,139,0.48);}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.9rem;border-top:1px solid var(--border);}
+  .view-more{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s;}
+  .project-card:hover .view-more{color:var(--cyan);}
+  .view-more svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.2s;}
+  .project-card:hover .view-more svg{transform:translateX(3px);}
+  .card-status{display:flex;align-items:center;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-muted);letter-spacing:0.1em;}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:pulse 2s ease-in-out infinite;}
+  .status-dot.wip{background:var(--amber);box-shadow:0 0 5px var(--amber);}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .about-text{font-size:0.93rem;color:var(--text-dim);line-height:1.9;font-weight:300;}
+  .about-text p{margin-bottom:1.2rem;}
+  .about-text strong{color:var(--text);font-weight:600;}
+  .specs-panel{border:1px solid var(--border);background:var(--bg2);padding:1.5rem;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));}
+  .specs-title{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.2rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+  .spec-row{display:flex;justify-content:space-between;align-items:baseline;padding:0.48rem 0;border-bottom:1px solid rgba(0,212,255,0.055);font-size:0.82rem;gap:0.75rem;}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-key{color:var(--text-muted);font-weight:300;flex-shrink:0;}
+  .spec-val{color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.72rem;text-align:right;}
+  .spec-val.highlight{color:var(--cyan);}
+
+  /* COMPETITIONS */
+  .comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+  .comp-card{background:var(--bg2);border:1px solid var(--border);padding:1.25rem 1.5rem;transition:border-color 0.3s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+  .comp-card:hover{border-color:var(--border-bright);}
+  .comp-place{font-size:1.5rem;font-weight:900;color:var(--cyan);font-family:'JetBrains Mono',monospace;line-height:1;margin-bottom:0.4rem;}
+  .comp-name{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.2rem;}
+  .comp-detail{font-size:0.75rem;color:var(--text-muted);font-weight:300;}
+
+  /* SKILLS */
+  .skills-bg{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
+  .skill-group{padding:1.25rem;border:1px solid var(--border);background:var(--bg3);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:border-color 0.3s;}
+  .skill-group:hover{border-color:var(--border-bright);}
+  .skill-group-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:0.7rem;border-bottom:1px solid var(--border);}
+  .skill-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+  .skill-list li{font-size:0.83rem;color:var(--text-dim);display:flex;align-items:center;gap:0.6rem;font-weight:300;}
+  .skill-list li::before{content:'';display:inline-block;width:4px;height:4px;background:var(--cyan);flex-shrink:0;opacity:0.45;}
+
+  /* CONTACT */
+  .contact-section{background:var(--bg2);border-top:1px solid var(--border);text-align:center;}
+  .contact-eyebrow{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:1rem;}
+  .contact-headline{font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.02em;}
+  .contact-sub{font-size:0.93rem;color:var(--text-muted);font-weight:300;margin-bottom:2.5rem;}
+  .contact-links{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;}
+  .contact-link{display:flex;align-items:center;gap:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--text-muted);text-decoration:none;letter-spacing:0.07em;transition:color 0.2s;}
+  .contact-link:hover{color:var(--cyan);}
+  .contact-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  footer{padding:1.5rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  footer p{font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--text-muted);letter-spacing:0.1em;}
+
+  /* ═══════════ DETAIL VIEW ═══════════ */
+  #detail-view{min-height:100vh;padding-top:80px;position:relative;z-index:1;}
+  .detail-back-bar{padding:1rem 4rem;border-bottom:1px solid var(--border);background:rgba(13,20,33,0.95);backdrop-filter:blur(8px);position:sticky;top:80px;z-index:10;}
+  .back-btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;background:none;border:none;transition:color 0.2s;}
+  .back-btn:hover{color:var(--cyan);}
+  .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  .detail-header{padding:3rem 4rem 2rem;border-bottom:1px solid var(--border);}
+  .detail-tag{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);background:var(--cyan-dim);padding:0.25rem 0.65rem;margin-bottom:1rem;}
+  .detail-tag.amber{color:var(--amber);background:var(--amber-dim);}
+  .detail-title{font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:900;letter-spacing:-0.02em;color:var(--text);margin-bottom:1rem;line-height:1.05;}
+  .detail-meta{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+  .detail-meta-item{display:flex;align-items:center;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-muted);letter-spacing:0.08em;}
+  .detail-meta-item svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .detail-stack{display:flex;flex-wrap:wrap;gap:0.5rem;}
+  .detail-pill{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-dim);border:1px solid rgba(100,116,139,0.3);padding:0.25rem 0.65rem;letter-spacing:0.04em;}
+
+  /* GALLERY */
+  .gallery-section{background:var(--bg);border-bottom:1px solid var(--border);}
+  .gallery-hero{position:relative;width:100%;background:#000;overflow:hidden;}
+  .gallery-hero-inner{width:100%;height:65vh;min-height:400px;max-height:700px;display:flex;align-items:center;justify-content:center;background:var(--bg3);}
+  .gallery-hero-inner img{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;display:none;cursor:zoom-in;}
+  .gallery-hero-inner img.active{display:block;}
+  .gallery-hero-inner video{width:100%;height:100%;object-fit:contain;display:none;background:#000;}
+  .gallery-hero-inner video.active{display:block;}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;display:none;align-items:center;justify-content:center;cursor:zoom-out;}
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:95vw;max-height:92vh;object-fit:contain;}
+  .lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:color 0.2s;}
+  .lightbox-close:hover{color:var(--cyan);}
+
+  .gallery-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(8,12,20,0.7);border:1px solid var(--border);color:var(--text-dim);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;z-index:2;}
+  .gallery-nav-btn:hover{background:rgba(0,212,255,0.15);border-color:var(--border-bright);color:var(--cyan);}
+  .gallery-nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .gallery-nav-prev{left:1.25rem;}
+  .gallery-nav-next{right:1.25rem;}
+
+  .gallery-counter{position:absolute;bottom:1rem;right:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);letter-spacing:0.12em;background:rgba(8,12,20,0.7);padding:0.25rem 0.6rem;border:1px solid var(--border);}
+
+  .gallery-thumbs{display:flex;gap:0.6rem;padding:1rem 4rem;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border);}
+  .gallery-thumbs::-webkit-scrollbar{height:3px;}
+  .gallery-thumbs::-webkit-scrollbar-track{background:var(--bg2);}
+  .gallery-thumbs::-webkit-scrollbar-thumb{background:var(--border-bright);}
+  .thumb{width:100px;height:64px;object-fit:cover;border:2px solid transparent;cursor:pointer;flex-shrink:0;transition:border-color 0.2s,opacity 0.2s;opacity:0.55;background:var(--bg3);}
+  .thumb:hover{opacity:0.85;}
+  .thumb.active{border-color:var(--cyan);opacity:1;}
+  .thumb-video{width:100px;height:64px;flex-shrink:0;border:2px solid transparent;cursor:pointer;position:relative;background:var(--bg3);transition:border-color 0.2s,opacity 0.2s;opacity:0.55;display:flex;align-items:center;justify-content:center;}
+  .thumb-video:hover{opacity:0.85;}
+  .thumb-video.active{border-color:var(--cyan);opacity:1;}
+  .thumb-video-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .thumb-video-icon svg{width:24px;height:24px;stroke:var(--cyan);fill:rgba(0,212,255,0.15);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .thumb-video span{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;}
+  .thumb-pdf{width:100px;height:64px;flex-shrink:0;border:2px solid transparent;cursor:pointer;position:relative;background:var(--bg3);transition:border-color 0.2s,opacity 0.2s;opacity:0.55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.25rem;}
+  .thumb-pdf:hover{opacity:0.85;border-color:var(--amber);}
+  .thumb-pdf svg{width:22px;height:22px;stroke:var(--amber);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .thumb-pdf span{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;}
+  .thumb-code{width:100px;height:64px;flex-shrink:0;border:2px solid transparent;cursor:pointer;background:var(--bg3);transition:border-color 0.2s,opacity 0.2s;opacity:0.55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.25rem;}
+  .thumb-code:hover{opacity:0.85;border-color:#22c55e;}
+  .thumb-code svg{width:22px;height:22px;stroke:#22c55e;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .thumb-code span{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;}
+
+  /* DETAIL BODY */
+  .detail-body{padding:3rem 4rem;max-width:900px;}
+  .detail-desc h3{font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+  .detail-desc p{font-size:0.93rem;color:var(--text-dim);line-height:1.88;font-weight:300;margin-bottom:1.5rem;}
+  .detail-bullets{list-style:none;display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2rem;}
+  .detail-bullets li{font-size:0.9rem;color:var(--text-dim);font-weight:300;line-height:1.72;padding-left:1.15rem;position:relative;}
+  .detail-bullets li::before{content:'›';position:absolute;left:0;color:var(--cyan);font-weight:600;}
+
+  /* SCROLL REVEAL */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border-bright);}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem;} nav ul{gap:1.25rem;}
+    .hero{padding:7rem 1.5rem 3rem;min-height:auto;}
+    .hero-ring,.hero-dot{display:none;}
+    section{padding:4rem 1.5rem;}
+    .about-grid{grid-template-columns:1fr;gap:2rem;}
+    .hero-stats{gap:1.5rem;}
+    footer{padding:1.5rem;flex-direction:column;gap:0.5rem;text-align:center;}
+    .detail-back-bar,.detail-header,.detail-body{padding-left:1.5rem;padding-right:1.5rem;}
+    .gallery-thumbs{padding:0.75rem 1rem;}
+    .gallery-hero-inner{height:45vw;min-height:220px;}
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo"><span>~/</span>nathaniel.butler</div>
+  <div class="nav-logo" onclick="showMain()"><span>~/</span>nathaniel.butler</div>
   <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about" onclick="showMain()">About</a></li>
+    <li><a href="#projects" onclick="showMain()">Projects</a></li>
+    <li><a href="#skills" onclick="showMain()">Skills</a></li>
+    <li><a href="#contact" onclick="showMain()">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-corner"></div>
-  <div class="hero-dot"></div>
+<!-- ══════════════ MAIN VIEW ══════════════ -->
+<div id="main-view">
 
-  <div class="hero-content">
-    <div class="hero-label">Mechatronics Engineer &amp; Physicist</div>
-    <h1>
-      <span class="name-line">Nathaniel</span>
-      <span class="name-line">Butler.</span>
-      <span class="title-line">Engineer.</span>
-    </h1>
-    <p class="hero-desc">
-      I build systems where mechanics, electronics, and software converge —
-      from autonomous robotics to physical simulation. I care about precision,
-      elegance, and making things that actually work in the real world.
-    </p>
-    <div class="hero-buttons">
-      <a href="#projects" class="btn-primary">View Projects</a>
-      <a href="#contact" class="btn-secondary">Get in Touch</a>
-    </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-number">12+</div>
-        <div class="stat-label">Projects Built</div>
-      </div>
-      <div>
-        <div class="stat-number">3</div>
-        <div class="stat-label">Published Papers</div>
-      </div>
-      <div>
-        <div class="stat-number">4yr</div>
-        <div class="stat-label">Experience</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-header reveal">
-    <span class="section-num">01.</span>
-    <h2 class="section-title">About Me</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="about-grid reveal">
-    <div class="about-text">
-      <p>
-        I'm a <strong>mechatronics engineer</strong> with a background in applied physics,
-        focused on designing intelligent systems that bridge computation and the physical world.
-        My work spans embedded firmware, control theory, mechanical simulation, and signal processing.
+  <section class="hero" id="home">
+    <div class="hero-ring"></div>
+    <div class="hero-dot"></div>
+    <div class="hero-content">
+      <div class="hero-label">Mechatronics Systems Engineering · SFU</div>
+      <h1>
+        <span class="name-line">Nathaniel</span>
+        <span class="name-line">Butler.</span>
+        <span class="title-line">Engineer.</span>
+      </h1>
+      <p class="hero-desc">
+        I build systems where physics, mechanics, electronics, and software converge —
+        from liquid rocket engines to autonomous submarines.
+        I care about precision, rigour, and making things that actually work in the real world.
       </p>
-      <p>
-        I'm most at home when a problem requires thinking across domains — whether that's
-        modelling rigid body dynamics, implementing a PID controller in C, or running
-        FEM analysis on a custom actuator.
-      </p>
-      <p>
-        Currently open to <strong>robotics, hardware, and research roles</strong> where
-        deep technical work is the job, not the exception.
-      </p>
-    </div>
-
-    <div class="specs-panel">
-      <div class="specs-title">// sys.info</div>
-      <div class="spec-row">
-        <span class="spec-key">Degree</span>
-        <span class="spec-val highlight">BEng Mechatronics</span>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View Projects</button>
+        <button class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
       </div>
-      <div class="spec-row">
-        <span class="spec-key">Minor</span>
-        <span class="spec-val">Applied Physics</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Location</span>
-        <span class="spec-val">Vancouver, BC</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Languages</span>
-        <span class="spec-val">C / C++ / Python / MATLAB</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">CAD / Sim</span>
-        <span class="spec-val">SolidWorks · ANSYS · Gazebo</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Availability</span>
-        <span class="spec-val highlight">Open to opportunities</span>
+      <div class="hero-stats">
+        <div><div class="stat-number">10+</div><div class="stat-label">Projects Built</div></div>
+        <div><div class="stat-number">4.18</div><div class="stat-label">CGPA at SFU</div></div>
+        <div><div class="stat-number">4×</div><div class="stat-label">Competition Wins</div></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PROJECTS -->
-<section id="projects" style="background: var(--bg);">
-  <div class="section-header reveal">
-    <span class="section-num">02.</span>
-    <h2 class="section-title">Projects</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="projects-grid">
-
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag">Robotics / Controls</div>
-      <div class="card-title">Autonomous Ground Vehicle Navigation</div>
-      <div class="card-desc">
-        Designed and implemented a full navigation stack for a differential-drive robot using ROS2.
-        Fused LiDAR and IMU data via an Extended Kalman Filter for real-time pose estimation,
-        achieving sub-5cm positional accuracy in indoor SLAM trials.
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">01.</span>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>I'm a <strong>second-year Mechatronics Systems Engineering student at SFU</strong>, actively working on two university design teams and a track record of competition results across Canada.</p>
+        <p>I'm drawn to problems that don't have easy answers. Whether it's deriving a control law from scratch, or designing a combustion chamber that won't melt itself — I want to understand things at a fundamental level, not just make them work.</p>
+        <p>My interest in <strong>rocketry</strong> comes from a fascination with space. There's something uniquely compelling about the engineering required to leave Earth — the physics are unforgiving, the margins are razor-thin, and the stakes don't get higher. That same pull toward the extreme end of what's possible is what draws me to <strong>theoretical physics</strong>: the idea that the universe has deep, elegant structure waiting to be uncovered.</p>
       </div>
-      <div class="card-stack">
-        <span class="stack-pill">C++</span>
-        <span class="stack-pill">ROS2</span>
-        <span class="stack-pill">EKF/SLAM</span>
-        <span class="stack-pill">LiDAR</span>
-        <span class="stack-pill">Python</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            Code
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Demo
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot"></div>
-          Complete
-        </div>
+      <div class="specs-panel">
+        <div class="specs-title">// sys.info</div>
+        <div class="spec-row"><span class="spec-key">Degree</span><span class="spec-val highlight">BASc Mechatronics · SFU</span></div>
+        <div class="spec-row"><span class="spec-key">Minor</span><span class="spec-val highlight">Applied Physics · SFU</span></div>
+        <div class="spec-row"><span class="spec-key">Year</span><span class="spec-val">2024 – 2030</span></div>
+        <div class="spec-row"><span class="spec-key">CAD</span><span class="spec-val">SolidWorks · Onshape · AutoCAD</span></div>
+        <div class="spec-row"><span class="spec-key">Languages</span><span class="spec-val">C/C++ · MATLAB</span></div>
+        <div class="spec-row"><span class="spec-key">Design Teams</span><span class="spec-val">SFU Rocketry · Subvision</span></div>
       </div>
     </div>
+  </section>
 
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag amber">Physics / Simulation</div>
-      <div class="card-title">6-DOF Rigid Body Physics Engine</div>
-      <div class="card-desc">
-        Built a custom physics simulation engine from scratch in C++ implementing
-        impulse-based collision resolution, quaternion rotation, and constraint solvers.
-        Benchmarked against Bullet Physics; achieved within 3% numerical accuracy at 10× lighter weight.
-      </div>
-      <div class="card-stack">
-        <span class="stack-pill">C++</span>
-        <span class="stack-pill">Linear Algebra</span>
-        <span class="stack-pill">Quaternions</span>
-        <span class="stack-pill">Eigen</span>
-        <span class="stack-pill">OpenGL</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            Code
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Paper
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot"></div>
-          Complete
-        </div>
-      </div>
+  <section id="projects" style="background:var(--bg);">
+    <div class="section-header reveal">
+      <span class="section-num">02.</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
     </div>
+    <div class="projects-grid">
 
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag">Embedded / Hardware</div>
-      <div class="card-title">CubeSat ADCS Firmware</div>
-      <div class="card-desc">
-        Developed attitude determination and control firmware for a 1U CubeSat on STM32H7.
-        Implemented a MEKF for sensor fusion (magnetometer + gyro + sun sensor),
-        with magnetic torquer actuation achieving 2° pointing accuracy.
-      </div>
-      <div class="card-stack">
-        <span class="stack-pill">C (bare-metal)</span>
-        <span class="stack-pill">STM32</span>
-        <span class="stack-pill">MEKF</span>
-        <span class="stack-pill">FreeRTOS</span>
-        <span class="stack-pill">CAN bus</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            Code
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Demo
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot wip"></div>
-          In Progress
+      <div class="project-card reveal" onclick="openProject('rocketrySRM')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <div class="card-no-preview"><span>Starting Soon</span></div>
+        <div class="card-tag amber">Propulsion / Chemistry</div>
+        <div class="card-title">SFU Rocketry — Solid Rocket Motor Lead</div>
+        <div class="card-desc">Leading a small team to quickly research and design a solid rocket motor.</div>
+        <div class="card-stack"><span class="stack-pill">Chemical Engineering</span><span class="stack-pill">Thermal FEM</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot wip"></div>Starting</div>
         </div>
       </div>
+
+      <div class="project-card reveal" onclick="openProject('rocketryGEN4')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/gen4/img1.png" alt="GEN4 preview">
+        <div class="card-tag amber">Propulsion / CFD</div>
+        <div class="card-title">SFU Rocketry — GEN 4 Liquid Regen Engine</div>
+        <div class="card-desc">Researched and designed a 3kN liquid rocket impinging injector incorporating film cooling. Created technical drawings ready for manufacturing.</div>
+        <div class="card-stack"><span class="stack-pill">SolidWorks</span><span class="stack-pill">Ansys</span><span class="stack-pill">Tolerancing</span><span class="stack-pill">Fluid Dynamics</span><span class="stack-pill">Injector Design</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot wip"></div>Machining</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('rocketryISG')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/isg/img1.png" alt="ISG preview">
+        <div class="card-tag amber">Propulsion / R&amp;D</div>
+        <div class="card-title">SFU Rocketry — ISG Propulsion</div>
+        <div class="card-desc">Designed a 1kN liquid regen rocket chamber with cooling channels and a co-axial swirl injector.</div>
+        <div class="card-stack"><span class="stack-pill">SolidWorks</span><span class="stack-pill">Thermal FEM</span><span class="stack-pill">CFD</span><span class="stack-pill">Injector Design</span><span class="stack-pill">Heat Flux Analysis</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot"></div>Complete</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('subvision')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/subvision/img2.png" alt="Subvision preview">
+        <div class="card-tag amber">Robotics / Embedded</div>
+        <div class="card-title">SFU Subvision — Autonomous Submarine</div>
+        <div class="card-desc">Ocean-monitoring nonprofit building an autonomous submarine that collects and transmits water quality sensor data.</div>
+        <div class="card-stack"><span class="stack-pill">Onshape</span><span class="stack-pill">Arduino Nano</span><span class="stack-pill">C++</span><span class="stack-pill">3D Printing</span><span class="stack-pill">Sensor Systems</span><span class="stack-pill">IoT</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot wip"></div>In Progress</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('mse212')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/robot212/img1.jpg" alt="MSE 212 preview">
+        <div class="card-tag">Reverse Engineering / Robotics</div>
+        <div class="card-title">MSE 212 — HiWonder Robot & Digital Twin</div>
+        <div class="card-desc">Reverse-engineered a robot into SolidWorks, 3D scanned a chess piece, designed and printed a custom gripper, then built a live digital twin mirroring real arm movement via ROS + MQTT.</div>
+        <div class="card-stack"><span class="stack-pill">SolidWorks</span><span class="stack-pill">Fusion 360</span><span class="stack-pill">ROS2 / RViz2</span><span class="stack-pill">MQTT</span><span class="stack-pill">3D Printing</span><span class="stack-pill">3D Scanning</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot"></div>Complete</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('snake')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <video class="card-preview-video" src="assets/snakegame/video.mp4" muted autoplay loop playsinline></video>
+        <div class="card-tag">Systems Programming / C</div>
+        <div class="card-title">MSE 152 — Snake Game (C + SDL2)</div>
+        <div class="card-desc">Built a full-featured Snake game in C using SDL2 and a linked-list engine. Led base game, procedural level generation, power-up system, multiplayer, and AI opponent.</div>
+        <div class="card-stack"><span class="stack-pill">C</span><span class="stack-pill">Memory Management</span><span class="stack-pill">Pointers</span><span class="stack-pill">Data Structures</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot"></div>Complete</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('balancing')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/balancing/img1.jpg" alt="Balancing robot preview">
+        <div class="card-tag">Control Theory</div>
+        <div class="card-title">Self-Balancing Robot — PID vs LQR</div>
+        <div class="card-desc">Implemented and compared PID and LQR controllers to balance a two-wheeled robot indefinitely. Won the class sumo competition.</div>
+        <div class="card-stack"><span class="stack-pill">C++</span><span class="stack-pill">PID Control</span><span class="stack-pill">LQR</span><span class="stack-pill">IMU Sensor</span><span class="stack-pill">Motor Control</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot"></div>Complete</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('levitation')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/maglev/img1.jpg" alt="Levitation preview">
+        <div class="card-tag">Physics / Electromagnetics</div>
+        <div class="card-title">Levitating Robot — Electromagnetic Rotor</div>
+        <div class="card-desc">3D printed a Halbach-array rotor that levitates via eddy currents above an aluminium plate at ~1500 RPM.</div>
+        <div class="card-stack"><span class="stack-pill">3D Printing</span><span class="stack-pill">Neodymium Magnets</span><span class="stack-pill">Electromagnetism</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot"></div>Complete</div>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag">Control Theory</div>
-      <div class="card-title">Inverted Pendulum LQR Controller</div>
-      <div class="card-desc">
-        Designed and physically constructed a double-inverted pendulum with full-state
-        LQR stabilisation. Derived system dynamics analytically, linearised about the
-        upright equilibrium, and tuned Q/R matrices using MATLAB. Maintained balance
-        with ±0.8° deviation under external impulse.
-      </div>
-      <div class="card-stack">
-        <span class="stack-pill">MATLAB</span>
-        <span class="stack-pill">LQR</span>
-        <span class="stack-pill">State-space</span>
-        <span class="stack-pill">Arduino</span>
-        <span class="stack-pill">SolidWorks</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            Code
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Report
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot"></div>
-          Complete
-        </div>
-      </div>
+  <section id="competitions" style="background:var(--bg2);border-top:1px solid var(--border);">
+    <div class="section-header reveal">
+      <span class="section-num">03.</span>
+      <h2 class="section-title">Competitions</h2>
+      <div class="section-line"></div>
     </div>
-
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag amber">ML / Signal Processing</div>
-      <div class="card-title">EMG-Based Prosthetic Hand Classifier</div>
-      <div class="card-desc">
-        Captured 8-channel surface EMG from forearm muscles and trained an SVM and LSTM
-        classifier to recognise 6 hand gestures with 94.2% accuracy. Deployed real-time
-        inference on a Raspberry Pi 4 driving servo-actuated fingers.
-      </div>
-      <div class="card-stack">
-        <span class="stack-pill">Python</span>
-        <span class="stack-pill">scikit-learn</span>
-        <span class="stack-pill">PyTorch</span>
-        <span class="stack-pill">Signal DSP</span>
-        <span class="stack-pill">Raspberry Pi</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            Code
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Paper
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot"></div>
-          Complete
-        </div>
-      </div>
+    <div class="comp-grid">
+      <div class="comp-card reveal"><div class="comp-place" style="color:#fbbf24">1st / 23</div><div class="comp-name">SFU Engineering Competition</div><div class="comp-detail">Junior Design · Nov. 2024</div></div>
+      <div class="comp-card reveal"><div class="comp-place" style="color:#94a3b8">2nd / 15</div><div class="comp-name">Western Engineering Competition</div><div class="comp-detail">Junior Design · Jan. 2025</div></div>
+      <div class="comp-card reveal"><div class="comp-place">Top 8</div><div class="comp-name">Canadian Engineering Competition</div><div class="comp-detail">Junior Design · Mar. 2025</div></div>
+      <div class="comp-card reveal"><div class="comp-place" style="color:var(--text-dim)">7th / 20</div><div class="comp-name">SFU Engineering Competition</div><div class="comp-detail">Senior Design · Nov. 2025</div></div>
     </div>
+  </section>
 
-    <div class="project-card reveal">
-      <div class="card-bracket"></div>
-      <div class="card-bracket-bl"></div>
-      <div class="card-tag">FEM / Structural</div>
-      <div class="card-title">Topology-Optimised Drone Frame</div>
-      <div class="card-desc">
-        Applied SIMP-based topology optimisation in ANSYS to redesign a quadrotor
-        arm structure. Achieved 31% mass reduction while maintaining structural
-        safety factor ≥2.5 under maximum motor thrust loading. Validated with
-        physical load testing post-fabrication.
-      </div>
-      <div class="card-stack">
-        <span class="stack-pill">ANSYS</span>
-        <span class="stack-pill">SolidWorks</span>
-        <span class="stack-pill">FEM</span>
-        <span class="stack-pill">SIMP Optimisation</span>
-        <span class="stack-pill">CF/PETG Print</span>
-      </div>
-      <div class="card-footer">
-        <div class="card-links">
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Report
-          </a>
-          <a href="#" class="card-link">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Gallery
-          </a>
-        </div>
-        <div class="card-status">
-          <div class="status-dot"></div>
-          Complete
-        </div>
-      </div>
+  <section id="skills" class="skills-bg">
+    <div class="section-header reveal">
+      <span class="section-num">04.</span>
+      <h2 class="section-title">Skills & Tools</h2>
+      <div class="section-line"></div>
     </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal"><div class="skill-group-label">CAD & Design</div><ul class="skill-list"><li>SolidWorks</li><li>Onshape</li><li>AutoCAD / Inventor / Revit</li><li>3D Printing (FDM)</li><li>GD&T & Tolerancing</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Software</div><ul class="skill-list"><li>C / C++</li><li>Python</li><li>MATLAB / Simulink</li><li>Java</li><li>Linux / GitHub</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Electrical & Embedded</div><ul class="skill-list"><li>Arduino / Raspberry Pi</li><li>Stepper motors & drivers</li><li>Soldering & PCB assembly</li><li>Oscilloscope / DMM</li><li>Sensors & power supply</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Simulation & Analysis</div><ul class="skill-list"><li>Ansys (FEM / CFD)</li><li>SolidWorks Simulation</li><li>MATLAB FFT & statistics</li><li>ANOVA / DOE</li><li>Tracker (physics analysis)</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Control Theory</div><ul class="skill-list"><li>PID control</li><li>LQR / state-space</li><li>Vibration dynamics</li><li>Odometry & path planning</li><li>Bézier curve motion</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Professional</div><ul class="skill-list"><li>Technical report writing</li><li>Presentation & graphics</li><li>Teamwork & communication</li><li>Project management</li><li>Fast, eager learner</li></ul></div>
+    </div>
+  </section>
 
-  </div>
-</section>
+  <section id="contact" class="contact-section">
+    <div class="contact-eyebrow reveal">// Ready to collaborate</div>
+    <div class="contact-headline reveal">Let's Build Something.</div>
+    <p class="contact-sub reveal">Open to co-ops, research positions, and interesting engineering challenges.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:nathaniel_butler@sfu.ca" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        nathaniel_butler@sfu.ca
+      </a>
+      <a href="https://www.linkedin.com/in/nathaniel-butler-9a148333b" class="contact-link" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </section>
 
-<!-- SKILLS -->
-<section id="skills" class="skills-bg">
-  <div class="section-header reveal">
-    <span class="section-num">03.</span>
-    <h2 class="section-title">Skills & Tools</h2>
-    <div class="section-line"></div>
+  <footer>
+    <p>Nathaniel Butler — Mechatronics Systems Engineering · SFU</p>
+    <p>Surrey, BC · 2026</p>
+  </footer>
+</div>
+
+<!-- ══════════════ DETAIL VIEW ══════════════ -->
+<div id="detail-view">
+  <div class="detail-back-bar">
+    <button class="back-btn" onclick="closeProject()">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Projects
+    </button>
   </div>
 
-  <div class="skills-grid">
-    <div class="skill-group reveal">
-      <div class="skill-group-label">Languages</div>
-      <ul class="skill-list">
-        <li>C / C++ (embedded & systems)</li>
-        <li>Python (automation, ML)</li>
-        <li>MATLAB / Simulink</li>
-        <li>Rust (learning)</li>
-        <li>Bash / Linux</li>
-      </ul>
+  <div class="detail-header">
+    <div id="d-tag" class="detail-tag"></div>
+    <div id="d-title" class="detail-title"></div>
+    <div class="detail-meta">
+      <div class="detail-meta-item" id="d-period">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span></span>
+      </div>
+      <div class="detail-meta-item" id="d-status">
+        <span class="status-dot"></span><span></span>
+      </div>
     </div>
-    <div class="skill-group reveal">
-      <div class="skill-group-label">Hardware & Embedded</div>
-      <ul class="skill-list">
-        <li>STM32 / ESP32 / AVR</li>
-        <li>FreeRTOS / bare-metal</li>
-        <li>I2C, SPI, UART, CAN</li>
-        <li>PCB design (KiCad)</li>
-        <li>FPGA basics (VHDL)</li>
-      </ul>
-    </div>
-    <div class="skill-group reveal">
-      <div class="skill-group-label">Mechanics & Sim</div>
-      <ul class="skill-list">
-        <li>SolidWorks / Fusion 360</li>
-        <li>ANSYS (FEM / CFD)</li>
-        <li>Gazebo / ROS2</li>
-        <li>Multibody dynamics</li>
-        <li>GD&T / manufacturing</li>
-      </ul>
-    </div>
-    <div class="skill-group reveal">
-      <div class="skill-group-label">Controls & Math</div>
-      <ul class="skill-list">
-        <li>PID / LQR / MPC</li>
-        <li>State-space modelling</li>
-        <li>Kalman filtering</li>
-        <li>Nonlinear dynamics</li>
-        <li>Numerical methods</li>
-      </ul>
-    </div>
-    <div class="skill-group reveal">
-      <div class="skill-group-label">ML / Data</div>
-      <ul class="skill-list">
-        <li>PyTorch / scikit-learn</li>
-        <li>Signal processing / DSP</li>
-        <li>Computer vision (OpenCV)</li>
-        <li>Data pipeline (pandas)</li>
-        <li>Sensor fusion</li>
-      </ul>
-    </div>
-    <div class="skill-group reveal">
-      <div class="skill-group-label">Physics</div>
-      <ul class="skill-list">
-        <li>Classical mechanics</li>
-        <li>Electromagnetism</li>
-        <li>Thermodynamics</li>
-        <li>Quantum fundamentals</li>
-        <li>Experimental methods</li>
-      </ul>
-    </div>
+    <div id="d-stack" class="detail-stack"></div>
   </div>
-</section>
 
-<!-- CONTACT -->
-<section id="contact" class="contact-section">
-  <div class="contact-eyebrow reveal">// Ready to collaborate</div>
-  <div class="contact-headline reveal">Let's Build Something.</div>
-  <p class="contact-sub reveal">Open to full-time roles, research positions, and interesting side projects.</p>
-  <div class="contact-links reveal">
-    <a href="mailto:alex.chen@example.com" class="contact-link">
-      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      nathaniel.butler@example.com
-    </a>
-    <a href="#" class="contact-link">
-      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-      github.com/nathanielbutler
-    </a>
-    <a href="#" class="contact-link">
-      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      linkedin.com/in/nathanielbutler
-    </a>
-    <a href="#" class="contact-link">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      Download CV
-    </a>
+  <!-- GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-hero">
+      <div class="gallery-hero-inner" id="gallery-hero">
+        <!-- images and video inserted by JS -->
+      </div>
+      <button class="gallery-nav-btn gallery-nav-prev" onclick="galleryNav(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="gallery-nav-btn gallery-nav-next" onclick="galleryNav(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="gallery-counter" id="gallery-counter">1 / 1</div>
+    </div>
+    <div class="gallery-thumbs" id="gallery-thumbs"></div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <p>Nathaniel Butler — Mechatronics Engineer</p>
-  <p>Built with precision. No templates harmed.</p>
-</footer>
+  <div class="detail-body">
+    <div class="detail-desc" id="d-desc"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+const projects = {
+  rocketrySRM: {
+    title:"SFU Rocketry — Solid Rocket Motor",
+    tag:"Propulsion / Chemistry", tagColor:"amber",
+    period:"May. 2026 – Present", status:"Starting", wip:true,
+    stack:["Chemical Engineering","Thermal FEM"],
+    media:[],
+    sections:[
+      {heading:"// Overview",content:"Leading a small team to quickly research and design a solid rocket motor. This is an early-stage initiative focused on building internal SRM capability within SFU Rocketry."},
+      {heading:"// What I Did",bullets:["Organize meetings and plan a research timeline","Onboarding the team and establishing propellant chemistry fundamentals","Scoping structural and thermal requirements for the motor casing"]}
+    ]
+  },
+  rocketryGEN4: {
+    title:"SFU Rocketry — GEN 4 Liquid Regen Engine",
+    tag:"Propulsion / CFD", tagColor:"amber",
+    period:"Oct. 2025 – May 2026", status:"Machining", wip:true,
+    stack:["SolidWorks","Ansys FEM","Computational Fluid Dynamics","Injector Theory","Heat Flux Analysis","Combustion Hardware"],
+    media:[
+      {type:"image",src:"assets/gen4/dwg1.jpg"},
+      {type:"image",src:"assets/gen4/dwg2.jpg"},
+      {type:"image",src:"assets/gen4/dwg3.jpg"},
+      {type:"image",src:"assets/gen4/dwg4.jpg"},
+      {type:"image",src:"assets/gen4/img4.png"},
+      {type:"image",src:"assets/gen4/img3.png"},
+      {type:"image",src:"assets/gen4/img6.png"},
+      {type:"image",src:"assets/gen4/img5.png"},
+      {type:"image",src:"assets/gen4/img1.png"},
+      {type:"image",src:"assets/gen4/img2.png"},
+      {type:"pdf",src:"assets/gen4/drawing.pdf",label:"Engineering Drawing"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"GEN 4 builds on the success of GEN 3, reusing the same chamber and fuel system. GEN 4 incorporates film cooling and a more advanced impinging injector geometry. Impinging injectors create better atomisation of propellant but are harder to design correctly. The injector is currently being machined and a hot-fire is planned soon."},
+      {heading:"// What I Did",bullets:[
+        "Researched injector design theory and derived sizing equations",
+        "Modelled the injector in SolidWorks and ran CFD in Ansys to validate pressure drop and flow characteristics against hand calculations",
+        "First design iteration included a rotating disk to adjust film cooling flow; simplified to a fixed-geometry design for machinability",
+        "Worked closely with the machinist to ensure all features met manufacturability constraints and tolerancing requirements",
+        "Created a complete technical drawing package ready for shop fabrication"
+      ]}
+    ]
+  },
+  rocketryISG: {
+    title:"SFU Rocketry — ISG Propulsion",
+    tag:"Propulsion / R&D", tagColor:"amber",
+    period:"Jan. 2025 – Oct. 2025", status:"Complete", wip:false,
+    stack:["SolidWorks","Thermal FEM","CFD","Injector Design","Heat Flux Analysis"],
+    media:[
+      {type:"image",src:"assets/isg/img1.png"},
+      {type:"image",src:"assets/isg/img2.png"},
+      {type:"image",src:"assets/isg/img3.png"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"As part of SFU Rocketry's propulsion sub-team, I collaborated to design a 1kN actively cooled liquid rocket engine — combining fluid dynamics, thermodynamics, and precision mechanical design."},
+      {heading:"// What I Did",bullets:[
+        "Designed an actively cooled combustion chamber with helical cooling channels in SolidWorks",
+        "Designed a co-axial swirl injector and sized orifices based on target propellant mass flow rates",
+        "Conducted thermal and fluid flow simulations using SolidWorks Flow and Ansys to evaluate heat transfer, cooling effectiveness, and chamber wall temperatures",
+        "Iterated designs based on simulation results, improving cooling performance and structural reliability",
+        "Developed practical knowledge of rocket propulsion including heat flux management, fluid dynamics, and combustion hardware"
+      ]}
+    ]
+  },
+  subvision: {
+    title:"SFU Subvision — Autonomous Submarine",
+    tag:"Robotics / Embedded Systems", tagColor:"amber",
+    period:"Oct. 2024 – Present", status:"In Progress", wip:true,
+    stack:["Onshape","Arduino Nano","C++","3D Printing","IoT","Sensors","Soldering"],
+    media:[
+      {type:"image",src:"assets/subvision/img1.png"},
+      {type:"image",src:"assets/subvision/img2.png"},
+      {type:"image",src:"assets/subvision/img3.png"},
+      {type:"image",src:"assets/subvision/img4.jpg"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"The Submersible Environment Monitor (SEM) is a nonprofit ocean-monitoring project building an autonomous submarine to assess water quality and ocean health. Working as part of a small multidisciplinary team, I contribute across mechanical design, electronics, and firmware."},
+      {heading:"// What I Did",bullets:[
+        "Designed and modelled 3D printed structural parts in Onshape for mounting electronics and sensors in a waterproof enclosure",
+        "Assembled electronic systems by soldering and wiring an Arduino Nano, environmental sensors, stepper motor, motor driver, and power supply on a prototyping board",
+        "Programmed stepper motor controller, data management system, and sensor data transmission using ThingSpeak IoT",
+        "Integrated mechanical, electrical, and software subsystems to ensure reliable operation in a submerged environment"
+      ]}
+    ]
+  },
+  balancing: {
+    title:"Self-Balancing Robot — PID vs LQR",
+    tag:"Control Theory", tagColor:"cyan",
+    period:"May 2024", status:"Complete", wip:false,
+    stack:["C++","PID Control","LQR","IMU Sensor","Motor Control"],
+    media:[
+      {type:"image",src:"assets/balancing/img1.jpg"},
+      {type:"image",src:"assets/balancing/img2.jpg"},
+      {type:"video",src:"assets/balancing/video.mp4"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"A two-wheeled inverted pendulum robot that maintains balance indefinitely using closed-loop control. The robot could operate autonomously or be driven to compete in a sumo competition."},
+      {heading:"// What I Did",bullets:[
+        "Designed and built a balancing robot with custom wheels optimised for control response",
+        "Implemented a PID controller with manual gain tuning and an LQR controller derived from the linearised state-space model",
+        "Compared both controllers across disturbance rejection and settling time metrics",
+        "Tuned control parameters iteratively for maximum stability under external impulse loads",
+        "Won the class sumo competition — best overall performance among all entries"
+      ]}
+    ]
+  },
+  levitation: {
+    title:"Levitating Robot — Electromagnetic Rotor",
+    tag:"Physics / Electromagnetics", tagColor:"cyan",
+    period:"Jun. 2024", status:"Complete", wip:false,
+    stack:["3D Printing","Neodymium Magnets","Halbach Array","Electromagnetism","Motor Control"],
+    media:[
+      {type:"image",src:"assets/maglev/img1.jpg"},
+      {type:"image",src:"assets/maglev/img2.jpg"},
+      {type:"video",src:"assets/maglev/video.mp4"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"A demonstration of electromagnetic levitation — a rotor embedded with neodymium magnets in a Halbach array configuration spins above an aluminium plate, inducing eddy currents that generate a repulsive force sufficient to levitate the assembly."},
+      {heading:"// What I Did",bullets:[
+        "Designed and 3D printed a custom magnetic rotor with embedded neodymium magnets arranged in a Halbach array to concentrate the magnetic field downward",
+        "Demonstrated stable electromagnetic levitation at approximately 1500 RPM above an aluminium plate",
+        "Applied Lenz's Law and eddy current theory to determine minimum rotational speed for levitation onset",
+        "Iterated rotor geometry and magnet placement to improve levitation stability and reduce wobble"
+      ]}
+    ]
+  },
+  mse212: {
+    title:"MSE 212 — HiWonder Robot & Digital Twin",
+    tag:"Reverse Engineering / Robotics", tagColor:"cyan",
+    period:"Jan. – Apr. 2026", status:"Complete", wip:false,
+    stack:["SolidWorks","Fusion 360","ROS2 / RViz2","MQTT","3D Printing","3D Scanning","URDF","GD&T"],
+    media:[
+      {type:"image",src:"assets/robot212/img1.jpg"},
+      {type:"image",src:"assets/robot212/img2.png"},
+      {type:"image",src:"assets/robot212/img3.png"},
+      {type:"image",src:"assets/robot212/img4.png"},
+      {type:"image",src:"assets/robot212/img5.png"},
+      {type:"image",src:"assets/robot212/img6.png"},
+      {type:"video",src:"assets/robot212/video.mp4"},
+      {type:"pdf",src:"assets/robot212/presentation.pdf",label:"Group Presentation"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"Across four integrated projects in MSE 212, we designed, fabricated, and simulated a complete robotic system. Starting from non-editable STEP files, we reverse-engineered the HiWonder robot into a fully parametric SolidWorks model, 3D scanned a chess piece and re-modelled it, designed and 3D printed a custom gripper sleeve, then built a live digital twin that mirrors real arm movement in real time."},
+      {heading:"// Project 1 — Reverse Engineering",bullets:[
+        "Imported HiWonder robot STEP files and reconstructed 60 parts as fully parametric SolidWorks parts (.SLDPRT) and a full assembly (.SLDASM)",
+        "Took direct measurements from STEP geometry and built constrained, dimensioned sketches matching the original geometry exactly",
+        "Solved rounding/tolerance symmetry issues by using a single reference feature and circular body patterning (patterning solid bodies, not features)",
+        "Produced complete GD&T drawings for each component"
+      ]},
+      {heading:"// Project 2 — 3D Scanning & Chess Piece Modelling",bullets:[
+        "Used a lab 3D scanner with vanishing spray to capture a point cloud (.xyz) of a chess piece from multiple angles",
+        "Converted the point cloud to a mesh (.stl) and imported it into SolidWorks as a reference body",
+        "Reverse-engineered the chess piece into a clean parametric SolidWorks model (.sldprt) matched to the scan geometry"
+      ]},
+      {heading:"// Project 3 — Custom Gripper Design & 3D Printing",bullets:[
+        "Designed a gripper sleeve to mount onto the HiWonder claw and securely pick up the chess piece without slipping",
+        "Overlapping hook geometry creates a tight lock; inner diameter matches the chess piece at the pickup point; chamfered top guides the piece into position",
+        "One flat side eliminates overhangs — no supports needed for FDM printing; symmetrical design means the same part works on both sides",
+        "Printed in PLA on an FDM printer; physically tested successful pickup and transport of the chess piece"
+      ]},
+      {heading:"// Project 4 — Digital Twin (ROS + MQTT)",bullets:[
+        "Imported the robot into Fusion 360, configured all links and joints, and exported a URDF file",
+        "Loaded the URDF into RViz2 to create a live 3D simulation of the physical robot",
+        "Built a robot_mqtt_bridge that reads real-time joint angles from the physical arm via MQTT (Raspberry Pi publisher) and feeds them to ROS (subscriber), mirroring arm movement in the simulation with low latency"
+      ]}
+    ]
+  },
+  snakegame: {
+    title:"Snake Game — C Programing",
+    tag:"C / Memory Management", tagColor:"cyan",
+    period:"Jan. – May 2026", status:"Complete", wip:false,
+    stack:["C","Memory Management","Pointers","Data Structures"],
+    media:[
+      {type:"image",src:"assets/snakegame/img1.png"},
+      {type:"image",src:"assets/snakegame/img2.png"},
+      {type:"video",src:"assets/snakegame/video.mp4"},
+      {type:"code",src:"assets/snakegame/game.c",label:"game.c"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"Programed"},
+      {heading:"// What I Did",bullets:[
+        "--"
+      ]}
+    ]
+  },
+  snake: {
+    title:"MSE 152 — Snake Game (C + SDL2)",
+    tag:"Systems Programming / C", tagColor:"cyan",
+    period:"Jan. – Apr. 2026", status:"Complete", wip:false,
+    stack:["C","SDL2","Linked Lists","Bitwise Flags","File I/O","Pathfinding","Procedural Generation","Makefile / GCC"],
+    media:[
+      {type:"image",src:"assets/snakegame/img1.png"},
+      {type:"image",src:"assets/snakegame/img2.png"},
+      {type:"video",src:"assets/snakegame/video.mp4"},
+      {type:"code",src:"assets/snakegame/game.c",label:"game.c"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"MSE 152 final project — a full-featured Snake game written in C using SDL2 for rendering, built by a team of three. The game runs on a custom linked-list engine and supports multiplayer, an AI opponent, procedural level generation, power-ups, and a complete menu system. My role covered the core engine and the majority of gameplay features."},
+      {heading:"// My Contributions",bullets:[
+        "Implemented the entire base game engine: linked-list snake body using malloc/free (create_segment, snake_add_head, snake_remove_tail, snake_free, reset_snake) — zero memory leaks confirmed with Valgrind",
+        "Built wall and self-collision detection in physics.c, plus score tracking, lives system, and progressive speed increase as the snake grows",
+        "Designed the power-up system: special food tiles with timed effects including speed boost, score multiplier, and shrink — each tracked with a countdown timer",
+        "Implemented procedural level generation — randomized static obstacle wall layouts generated fresh each game using a seeded algorithm",
+        "Built full multiplayer mode supporting two simultaneous human-controlled snakes on the same keyboard (Arrow keys for P1, WASD for P2)",
+        "Wrote a Snake AI opponent controlled by a simple pathfinding algorithm that navigates toward food while avoiding walls and its own body"
+      ]},
+      {heading:"// Technical Highlights",bullets:[
+        "Snake body represented as a singly linked list — O(1) head prepend, O(n) tail removal, fully heap-allocated with no leaks",
+        "Game state managed with bitwise flags (FLAG_* constants defined in game.h) — allows compact state representation and fast boolean operations",
+        "SDL2 handles all rendering and input — pixel-level control with no engine abstractions",
+        "Procedural obstacles use per-level seeded randomness so layouts are reproducible but vary across sessions",
+        "AI uses a greedy pathfinding approach — evaluates adjacent cells and moves toward the shortest Manhattan distance to food, with collision avoidance"
+      ]}
+    ]
+  }
+};
 
-  // Stagger project cards
-  document.querySelectorAll('.project-card').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 80}ms`;
+// ── GALLERY STATE ──
+let galleryItems = [];
+let galleryIndex = 0;
+
+function openProject(id) {
+  const p = projects[id];
+  if (!p) return;
+
+  document.getElementById('d-tag').textContent = p.tag;
+  document.getElementById('d-tag').className = 'detail-tag' + (p.tagColor === 'amber' ? ' amber' : '');
+  document.getElementById('d-title').textContent = p.title;
+  document.getElementById('d-period').querySelector('span').textContent = p.period;
+  const statusEl = document.getElementById('d-status');
+  statusEl.querySelector('span:last-child').textContent = p.status;
+  statusEl.querySelector('.status-dot').className = 'status-dot' + (p.wip ? ' wip' : '');
+  document.getElementById('d-stack').innerHTML = p.stack.map(s => `<span class="detail-pill">${s}</span>`).join('');
+  document.getElementById('d-desc').innerHTML = p.sections.map(sec =>
+    sec.bullets
+      ? `<h3>${sec.heading}</h3><ul class="detail-bullets">${sec.bullets.map(b => `<li>${b}</li>`).join('')}</ul>`
+      : `<h3>${sec.heading}</h3><p>${sec.content}</p>`
+  ).join('');
+
+  buildGallery(p.media || []);
+
+  document.getElementById('main-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function buildGallery(media) {
+  galleryItems = media;
+  galleryIndex = 0;
+  const hero = document.getElementById('gallery-hero');
+  const thumbs = document.getElementById('gallery-thumbs');
+  hero.innerHTML = '';
+  thumbs.innerHTML = '';
+
+  if (!media.length) {
+    hero.innerHTML = '<div style="color:var(--text-muted);font-family:\'JetBrains Mono\',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;">No media yet</div>';
+    document.getElementById('gallery-counter').textContent = '';
+    return;
+  }
+
+  // Build hero elements
+  media.forEach((item, i) => {
+    if (item.type === 'image') {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = 'Project image ' + (i+1);
+      img.className = i === 0 ? 'active' : '';
+      img.onclick = () => openLightbox(item.src);
+      hero.appendChild(img);
+    } else if (item.type === 'video') {
+      const vid = document.createElement('video');
+      vid.src = item.src;
+      vid.controls = true;
+      vid.className = i === 0 ? 'active' : '';
+      hero.appendChild(vid);
+    }
   });
+
+  // Build thumbnails
+  media.forEach((item, i) => {
+    if (item.type === 'image') {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.className = 'thumb' + (i === 0 ? ' active' : '');
+      img.onclick = () => setGalleryIndex(i);
+      thumbs.appendChild(img);
+    } else if (item.type === 'video') {
+      const div = document.createElement('div');
+      div.className = 'thumb-video' + (i === 0 ? ' active' : '');
+      div.innerHTML = `<div class="thumb-video-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span>Video</span>`;
+      div.onclick = () => setGalleryIndex(i);
+      thumbs.appendChild(div);
+    } else if (item.type === 'pdf') {
+      const div = document.createElement('div');
+      div.className = 'thumb-pdf';
+      div.innerHTML = `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>${item.label || 'PDF'}</span>`;
+      div.onclick = () => window.open(item.src, '_blank');
+      thumbs.appendChild(div);
+    } else if (item.type === 'code') {
+      const div = document.createElement('div');
+      div.className = 'thumb-code';
+      div.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>${item.label || 'Code'}</span>`;
+      div.onclick = () => window.open(item.src, '_blank');
+      thumbs.appendChild(div);
+    } else if (item.type === 'link') {
+      const div = document.createElement('div');
+      div.className = 'thumb-code';
+      div.style.borderColor = 'rgba(0,212,255,0.2)';
+      div.innerHTML = `<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>${item.label || 'Link'}</span>`;
+      div.onclick = () => window.open(item.src, '_blank');
+      thumbs.appendChild(div);
+    }
+  });
+
+  updateGalleryCounter();
+}
+
+function setGalleryIndex(i) {
+  const nonPdfItems = galleryItems.filter(m => m.type !== 'pdf');
+  if (i >= nonPdfItems.length) return; // PDF thumb click is handled separately
+  
+  const hero = document.getElementById('gallery-hero');
+  const allHeroEls = hero.querySelectorAll('img, video');
+  allHeroEls.forEach(el => { el.classList.remove('active'); if (el.tagName === 'VIDEO') el.pause(); });
+  
+  const thumbEls = document.getElementById('gallery-thumbs').children;
+  Array.from(thumbEls).forEach(el => el.classList.remove('active'));
+
+  // Map i to gallery items (skipping pdfs for hero display)
+  let heroIdx = 0;
+  let mediaHeroIdx = 0;
+  for (let j = 0; j < galleryItems.length; j++) {
+    if (galleryItems[j].type !== 'pdf') {
+      if (j === i) { heroIdx = mediaHeroIdx; break; }
+      mediaHeroIdx++;
+    }
+  }
+
+  allHeroEls[heroIdx] && allHeroEls[heroIdx].classList.add('active');
+  thumbEls[i] && thumbEls[i].classList.add('active');
+  galleryIndex = i;
+  updateGalleryCounter();
+}
+
+function galleryNav(dir) {
+  const nonPdf = galleryItems.filter((m,i) => { return m.type !== 'pdf'; });
+  // Navigate among non-pdf items
+  const nonPdfIndices = galleryItems.reduce((acc, m, i) => { if (m.type !== 'pdf') acc.push(i); return acc; }, []);
+  const curPos = nonPdfIndices.indexOf(galleryIndex);
+  if (curPos === -1) return;
+  let newPos = (curPos + dir + nonPdfIndices.length) % nonPdfIndices.length;
+  setGalleryIndex(nonPdfIndices[newPos]);
+}
+
+function updateGalleryCounter() {
+  const nonPdf = galleryItems.filter(m => m.type !== 'pdf');
+  if (!nonPdf.length) { document.getElementById('gallery-counter').textContent = ''; return; }
+  const nonPdfIndices = galleryItems.reduce((acc,m,i) => { if(m.type!=='pdf') acc.push(i); return acc; },[]);
+  const cur = nonPdfIndices.indexOf(galleryIndex);
+  document.getElementById('gallery-counter').textContent = `${cur+1} / ${nonPdf.length}`;
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeProject() {
+  // Pause any playing video
+  document.querySelectorAll('#gallery-hero video').forEach(v => v.pause());
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('main-view').style.display = 'block';
+  setTimeout(() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }), 50);
+}
+
+function showMain() {
+  document.querySelectorAll('#gallery-hero video').forEach(v => v.pause());
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('main-view').style.display = 'block';
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    return;
+  }
+  if (document.getElementById('detail-view').style.display !== 'none') {
+    if (e.key === 'ArrowLeft') galleryNav(-1);
+    if (e.key === 'ArrowRight') galleryNav(1);
+    if (e.key === 'Escape') closeProject();
+  }
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 55); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
