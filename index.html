@@ -266,9 +266,10 @@
         <span class="title-line">Engineer.</span>
       </h1>
       <p class="hero-desc">
-        I build systems where physics, mechanics, electronics, and software converge —
-        from liquid rocket engines to autonomous submarines.
-        I care about precision, rigour, and making things that actually work in the real world.
+        I build systems where physics and mechanics converge —
+        from liquid rocket engines to robotic arms to autonomous submarines.
+        I care about precision and rigour.
+        Harder the chanllange the bigger the reward.
       </p>
       <div class="hero-buttons">
         <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View Projects</button>
@@ -276,8 +277,7 @@
       </div>
       <div class="hero-stats">
         <div><div class="stat-number">10+</div><div class="stat-label">Projects Built</div></div>
-        <div><div class="stat-number">4.18</div><div class="stat-label">CGPA at SFU</div></div>
-        <div><div class="stat-number">4×</div><div class="stat-label">Competition Wins</div></div>
+        <div><div class="stat-number">4.20</div><div class="stat-label">CGPA at SFU</div></div>
       </div>
     </div>
   </section>
@@ -290,18 +290,18 @@
     </div>
     <div class="about-grid reveal">
       <div class="about-text">
-        <p>I'm a <strong>second-year Mechatronics Systems Engineering student at SFU</strong>, actively working on two university design teams and a track record of competition results across Canada.</p>
+        <p>I'm a <strong>third-year Mechatronics Systems Engineering student prusing a double degree in Applied Physics at SFU</strong> I'm actively working on two university design teams and have a track record of competition results across Canada.</p>
         <p>I'm drawn to problems that don't have easy answers. Whether it's deriving a control law from scratch, or designing a combustion chamber that won't melt itself — I want to understand things at a fundamental level, not just make them work.</p>
-        <p>My interest in <strong>rocketry</strong> comes from a fascination with space. There's something uniquely compelling about the engineering required to leave Earth — the physics are unforgiving, the margins are razor-thin, and the stakes don't get higher. That same pull toward the extreme end of what's possible is what draws me to <strong>theoretical physics</strong>: the idea that the universe has deep, elegant structure waiting to be uncovered.</p>
+        <p>My interest in <strong>rocketry</strong> comes from a fascination with space. There's something uniquely compelling about the challenging engineering required to leave Earth. That same pull toward the extreme end of what's possible is what draws me to <strong>theoretical physics</strong>: the idea that the universe has deep, elegant structure waiting to be uncovered.</p>
       </div>
       <div class="specs-panel">
         <div class="specs-title">// sys.info</div>
-        <div class="spec-row"><span class="spec-key">Degree</span><span class="spec-val highlight">BASc Mechatronics · SFU</span></div>
-        <div class="spec-row"><span class="spec-key">Minor</span><span class="spec-val highlight">Applied Physics · SFU</span></div>
+        <div class="spec-row"><span class="spec-key">Double Degree</span><span class="spec-val highlight">BASc Mechatronics · SFU</span></div>
+        <div class="spec-row"><span class="spec-key"> </span><span class="spec-val highlight">BSc Applied Physics · SFU</span></div>
         <div class="spec-row"><span class="spec-key">Year</span><span class="spec-val">2024 – 2030</span></div>
         <div class="spec-row"><span class="spec-key">CAD</span><span class="spec-val">SolidWorks · Onshape · AutoCAD</span></div>
         <div class="spec-row"><span class="spec-key">Languages</span><span class="spec-val">C/C++ · MATLAB</span></div>
-        <div class="spec-row"><span class="spec-key">Design Teams</span><span class="spec-val">SFU Rocketry · Subvision</span></div>
+        <div class="spec-row"><span class="spec-key">Design Teams</span><span class="spec-val">SFU Rocketry · SFU SAT · Subvision</span></div>
       </div>
     </div>
   </section>
@@ -314,16 +314,29 @@
     </div>
     <div class="projects-grid">
 
-      <div class="project-card reveal" onclick="openProject('rocketrySRM')">
+      <div class="project-card reveal" onclick="openProject('rover')">
         <div class="card-bracket"></div><div class="card-bracket-bl"></div>
-        <div class="card-no-preview"><span>Starting Soon</span></div>
-        <div class="card-tag amber">Propulsion / Chemistry</div>
-        <div class="card-title">SFU Rocketry — Solid Rocket Motor Lead</div>
-        <div class="card-desc">Leading a small team to quickly research and design a solid rocket motor.</div>
-        <div class="card-stack"><span class="stack-pill">Chemical Engineering</span><span class="stack-pill">Thermal FEM</span></div>
+        <video class="card-preview-video" src="assets/rover/ros2.mp4" muted autoplay loop playsinline></video>
+        <div class="card-tag amber">Simulation / Mechanical Design</div>
+        <div class="card-title">SFU Rover — Robotic Arm</div>
+        <div class="card-desc">Design and simulate robotic arm from scratch for new SFU team at University Rover Challenge.</div>
+        <div class="card-stack"><span class="stack-pill">ROS2</span><span class="stack-pill">SolidWorks</span></div>
         <div class="card-footer">
           <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-          <div class="card-status"><div class="status-dot wip"></div>Starting</div>
+          <div class="card-status"><div class="status-dot wip"></div>In Progress</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" onclick="openProject('rocketrySRM')">
+        <div class="card-bracket"></div><div class="card-bracket-bl"></div>
+        <img class="card-preview" src="assets/srm/rocket.png" alt="srm preview">
+        <div class="card-tag amber">Simulation / Flight Dynamics</div>
+        <div class="card-title">SFU Rocketry — Model Rocket Lead</div>
+        <div class="card-desc">Leading a small team to quickly research and design a model rocket.</div>
+        <div class="card-stack"><span class="stack-pill">Open Rocket</span><span class="stack-pill">CFD</span><span class="stack-pill">Project Management</span></div>
+        <div class="card-footer">
+          <div class="view-more">View Project <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="card-status"><div class="status-dot wip"></div>In Progress</div>
         </div>
       </div>
 
@@ -443,7 +456,7 @@
     </div>
     <div class="skills-grid">
       <div class="skill-group reveal"><div class="skill-group-label">CAD & Design</div><ul class="skill-list"><li>SolidWorks</li><li>Onshape</li><li>AutoCAD / Inventor / Revit</li><li>3D Printing (FDM)</li><li>GD&T & Tolerancing</li></ul></div>
-      <div class="skill-group reveal"><div class="skill-group-label">Software</div><ul class="skill-list"><li>C / C++</li><li>Python</li><li>MATLAB / Simulink</li><li>Java</li><li>Linux / GitHub</li></ul></div>
+      <div class="skill-group reveal"><div class="skill-group-label">Software</div><ul class="skill-list"><li>C / C++</li><li>Python</li><li>MATLAB / Simulink</li><li>LabView</li><li>Java</li><li>Linux / GitHub</li></ul></div>
       <div class="skill-group reveal"><div class="skill-group-label">Electrical & Embedded</div><ul class="skill-list"><li>Arduino / Raspberry Pi</li><li>Stepper motors & drivers</li><li>Soldering & PCB assembly</li><li>Oscilloscope / DMM</li><li>Sensors & power supply</li></ul></div>
       <div class="skill-group reveal"><div class="skill-group-label">Simulation & Analysis</div><ul class="skill-list"><li>Ansys (FEM / CFD)</li><li>SolidWorks Simulation</li><li>MATLAB FFT & statistics</li><li>ANOVA / DOE</li><li>Tracker (physics analysis)</li></ul></div>
       <div class="skill-group reveal"><div class="skill-group-label">Control Theory</div><ul class="skill-list"><li>PID control</li><li>LQR / state-space</li><li>Vibration dynamics</li><li>Odometry & path planning</li><li>Bézier curve motion</li></ul></div>
@@ -527,15 +540,31 @@
 
 <script>
 const projects = {
-  rocketrySRM: {
-    title:"SFU Rocketry — Solid Rocket Motor",
-    tag:"Propulsion / Chemistry", tagColor:"amber",
-    period:"May. 2026 – Present", status:"Starting", wip:true,
-    stack:["Chemical Engineering","Thermal FEM"],
-    media:[],
+  rover: {
+    title:"SFU Rover — Robotic Arm",
+    tag:"Simulation / Mechanical Design", tagColor:"amber",
+    period:"May. 2026 – Present", status:"In Progress", wip:true,
+    stack:["ROS2","SolidWorks"],
+    media:[
+      {type:"video",src:"assets/rover/ros2.mp4"},
+      {type:"image",src:"assets/rover/gripper.png"}
+    ],
     sections:[
-      {heading:"// Overview",content:"Leading a small team to quickly research and design a solid rocket motor. This is an early-stage initiative focused on building internal SRM capability within SFU Rocketry."},
-      {heading:"// What I Did",bullets:["Organize meetings and plan a research timeline","Onboarding the team and establishing propellant chemistry fundamentals","Scoping structural and thermal requirements for the motor casing"]}
+      {heading:"// Overview",content:"Design and simulate the robotic arm for SFU SAT's new rover team to compete in University Rover Challange (URC)."},
+      {heading:"// What I Did",bullets:["Build a simulation using ROS2 to test the control of the arm","Imported URDF files stright from SolidWorks","Conected X-box controler and using inverse kinematics for conrol of the arm","Designing the end effector for completing challenges by moving object and pressing buttons"]}
+    ]
+  },
+  rocketrySRM: {
+    title:"SFU Rocketry — Model Rocket Lead",
+    tag:"Simulation / Flight Dynamics", tagColor:"amber",
+    period:"May. 2026 – Present", status:"In Progress", wip:true,
+    stack:["Open Rocket","CFD"],
+    media:[
+      {type:"image",src:"assets/srm/rocket.png"}
+    ],
+    sections:[
+      {heading:"// Overview",content:"Design and construct a rocket cable of reaching 1km in altitude."},
+      {heading:"// What I Did",bullets:["Organize meetings and plan a research timeline","Maintain documentation"]}
     ]
   },
   rocketryGEN4: {
@@ -590,7 +619,7 @@ const projects = {
   subvision: {
     title:"SFU Subvision — Autonomous Submarine",
     tag:"Robotics / Embedded Systems", tagColor:"amber",
-    period:"Oct. 2024 – Present", status:"In Progress", wip:true,
+    period:"Oct. 2024 – Apr. 2026", status:"Complete", wip:false,
     stack:["Onshape","Arduino Nano","C++","3D Printing","IoT","Sensors","Soldering"],
     media:[
       {type:"image",src:"assets/subvision/img1.png"},
